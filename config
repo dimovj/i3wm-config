@@ -149,8 +149,6 @@ bar {
         status_command i3status
 }
 
-# jelena user config trial
-bindsym $mod+shift+x exec i3lock
 
 # pulse audio controls
 #bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound
@@ -163,8 +161,8 @@ bindsym $mod+shift+x exec i3lock
 #bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
 
 set $sink `pactl list short sinks | grep RUNNING | cut -f1`
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $sink -- +10%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $sink -- -10%
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $sink +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $sink -5%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $sink toggle
 
 #needed to install xbacklight
@@ -172,9 +170,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $sink toggle
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
- 
-# Touchpad controls
-bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touch pad
+
 
 # insctructions for audio, screen and touchpad
 #https://faq.i3wm.org/question/3747/enabling-multimedia-keys/?answer=3759#post-id-3759
