@@ -23,8 +23,12 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+#floating always
+for_window [class="Gmrun"] floating enable
+
+
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec sakura
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -36,11 +40,39 @@ bindsym $mod+d exec dmenu_run
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
+# Apps and settings
+#bindsym $mod+b exec surf https://www.startpage.com
+#bindsym $mod+b exec midori
+bindsym $mod+b exec midori -p
+bindsym $mod+l exec i3lock -c 111111
+bindsym $mod+f exec pcmanfm 
+bindsym $mod+Shift+f exec gksu pcmanfm 
+bindsym $mod+g exec gmrun
+bindsym $mod+F9 exec synclient TouchPadOff=1
+bindsym $mod+F10 exec synclient TouchPadOff=0
+
+
+#scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+
+# startup apps
+exec --no-startup-id nm-applet
+exec --no-startup-id feh --bg-scale /usr/share/wattOS/microwatt.jpg
+exec --no-startup-id xfce4-power-manager
+
+# Keyboard layout
+#exec setxkbmap -layout us,rs,rs -variant ,latin,
+#exec setxkbmap -variant ,latin,
+#exec_always setxkbmap -option 'grp:alt_shift_toggle'
+
+
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+# bindsym $mod+j focus left
+# bindsym $mod+k focus down
+# bindsym $mod+l focus up
+# bindsym $mod+semicolon focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -61,13 +93,13 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+v split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+h split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen
+# bindsym $mod+f fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
@@ -117,6 +149,9 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
+#shutdown immediately - no warnings...
+bindsym $mod+Shift+p exec systemctl poweroff
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -146,33 +181,15 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+        status_command i3blocks -c /home/jelena/.config/i3/i3blocks.conf
 }
 
+# lock
+#bindsym $mod+shift+x exec i3lock
 
-# pulse audio controls
-#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound
-#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #increase sound
-#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
-# ALSA audio controls for my system
-#bindsym XF86AudioRaiseVolume exec "amixer -q sset Master,0 1+ unmute"
-#bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 1- unmute"
-#bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
-
+# audio volume control
 set $sink `pactl list short sinks | grep RUNNING | cut -f1`
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume $sink +5%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume $sink -5%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute $sink toggle
-
-#needed to install xbacklight
-
-# Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
-
-
-# insctructions for audio, screen and touchpad
-#https://faq.i3wm.org/question/3747/enabling-multimedia-keys/?answer=3759#post-id-3759
-
-# exec nameapp (works when you first login)
